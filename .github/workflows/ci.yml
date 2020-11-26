@@ -46,4 +46,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
       - name: Ensure README.md is updated
-        run: [ "$(< README.md)" = "$(cargo readme)" ]
+        run: '[ "$(< README.md)" = "$(cargo readme)" ]'
