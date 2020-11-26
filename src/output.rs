@@ -21,6 +21,15 @@ impl fmt::Write for DummyWriter {
     }
 }
 
+struct WriteCounter<'a, T: fmt::Write>(&'a mut T, usize);
+
+impl<'a, T: fmt::Write> fmt::Write for WriteCounter<'a, T> {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.1 += s.len();
+        self.0.write_str(s)
+    }
+}
+
 fn write_str(
     w: &mut impl fmt::Write,
     flags: Flags,
@@ -220,16 +229,18 @@ macro_rules! define_unumeric {
 /// - `g`/`G` (shorted floating point) is aliased to `f`/`F`` (decimal floating
 ///   point)
 /// - same for `a`/`A` (hex floating point)
-/// - the number of bytes written is not counted
 /// - the `n` format specifier, [`Specifier::WriteBytesWritten`], is not
 ///   implemented and will cause an error if encountered.
 pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ {
+    use fmt::Write;
     move |Argument {
               flags,
               mut width,
               precision,
               specifier,
           }| {
+        let mut w = WriteCounter(w, 0);
+        let w = &mut w;
         let res = match specifier {
             Specifier::Percent => w.write_char('%'),
             Specifier::Bytes(data) => write_str(w, flags, width, precision, data),
@@ -282,7 +293,7 @@ pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ 
             Specifier::WriteBytesWritten(_, _) => Err(Default::default()),
         };
         match res {
-            Ok(_) => 0,
+            Ok(_) => w.1 as c_int,
             Err(_) => -1,
         }
     }
@@ -372,15 +383,19 @@ mod yes_std {
                 }
             }
         }
+    }
 
-        fn write_fmt(&mut self, args: fmt::Arguments<'_>) -> fmt::Result {
-            match self.0.write_fmt(args) {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    self.1 = Err(e);
-                    Err(fmt::Error)
-                }
-            }
+    struct IoWriteCounter<'a, T: io::Write>(&'a mut T, usize);
+
+    impl<'a, T: io::Write> io::Write for IoWriteCounter<'a, T> {
+        fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+            self.0.write_all(buf)?;
+            self.1 += buf.len();
+            Ok(buf.len())
+        }
+
+        fn flush(&mut self) -> io::Result<()> {
+            self.0.flush()
         }
     }
 
@@ -412,13 +427,16 @@ mod yes_std {
     ///
     /// This shares the same caveats as [`fmt_write`], except that non-UTF-8
     /// data is supported.
-    pub fn io_write(mut w: &mut impl io::Write) -> impl FnMut(Argument) -> c_int + '_ {
+    pub fn io_write(w: &mut impl io::Write) -> impl FnMut(Argument) -> c_int + '_ {
+        use io::Write;
         move |Argument {
                   flags,
                   width,
                   precision,
                   specifier,
               }| {
+            let mut w = IoWriteCounter(w, 0);
+            let mut w = &mut w;
             let res = match specifier {
                 Specifier::Percent => w.write_all(b"%"),
                 Specifier::Bytes(data) => write_bytes(w, flags, width, precision, data),
@@ -435,7 +453,7 @@ mod yes_std {
                 }
             };
             match res {
-                Ok(_) => 0,
+                Ok(_) => w.1 as c_int,
                 Err(_) => -1,
             }
         }

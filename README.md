@@ -53,7 +53,8 @@ yourself.
 ### 🧹 Tested
 
 A wide [test suite] is used to ensure that many different possibilities are
-identical to glibc's `printf`. [Differences are documented][output::fmt_write#differences].
+identical to glibc's `printf`. [Differences are
+documented][output::fmt_write#differences].
 
 ## Getting Started
 

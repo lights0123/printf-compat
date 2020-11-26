@@ -6,40 +6,41 @@ extern "C" {
     fn free(p: *mut c_void);
 }
 
-unsafe extern "C" fn rust_fmt(str: *const u8, mut args: ...) -> Box<String> {
+unsafe extern "C" fn rust_fmt(str: *const u8, mut args: ...) -> Box<(c_int, String)> {
     let mut s = String::new();
-    assert!(
-        crate::format(
-            str as _,
-            args.clone().as_va_list(),
-            crate::output::fmt_write(&mut s),
-        ) >= 0
+    let bytes_written = crate::format(
+        str as _,
+        args.clone().as_va_list(),
+        crate::output::fmt_write(&mut s),
     );
+    assert!(bytes_written >= 0);
     let mut s2 = std::io::Cursor::new(vec![]);
-    assert!(
+    assert_eq!(
+        bytes_written,
         crate::format(
             str as _,
             args.as_va_list(),
             crate::output::io_write(&mut s2),
-        ) >= 0
+        )
     );
     assert_eq!(s.as_bytes(), s2.get_ref());
-    Box::new(s)
+    Box::new((bytes_written, s))
 }
 
 macro_rules! c_fmt {
     ($format:expr $(, $p:expr)*) => {{
         let mut ptr = null_mut();
-        assert!(asprintf(&mut ptr, $format $(, $p)*) >= 0);
+        let bytes_written = asprintf(&mut ptr, $format $(, $p)*);
+        assert!(bytes_written >= 0);
         let str: String = cstr_core::CStr::from_ptr(ptr as *const _).to_string_lossy().into();
         free(ptr as _);
-        str
+        (bytes_written, str)
     }};
 }
 
 macro_rules! assert_eq_fmt {
     ($format:expr $(, $p:expr)*) => {
-        assert_eq!(c_fmt!($format $(, $p)*).as_str(), rust_fmt($format, $($p),*).as_str())
+        assert_eq!(c_fmt!($format $(, $p)*), *rust_fmt($format, $($p),*))
     };
 }
 
