@@ -10,7 +10,8 @@ This is a complete reimplementation of `printf` in Rust, using the unstable
 
 - [Many C][sigrok-log] [libraries][libusb-log] provide a way to provide a
   custom log callback. With this crate, you can provide a pure Rust option,
-  and do whatever you want with it. Log it to the console,
+  and do whatever you want with it. Log it to the console, store it in a
+  string, or do anything else.
 - If you're writing a Rust-first program for a microcontroller and need to
   interface with a C library, you might not *have* a libc and have to
   reimplement it yourself. If it uses `printf`, use this crate to easily add
@@ -118,10 +119,10 @@ License: MIT OR Apache-2.0
 [`std`]: https://doc.rust-lang.org/std/index.html
 [`std::os::raw`]: https://doc.rust-lang.org/stable/std/os/raw/index.html
 [`cty`]: https://docs.rs/cty/0.2/cty/
-[output::fmt_write]: https://docs.rs/printf-compat/0.1.0/printf_compat/output/fn.fmt_write.html
-[`output::fmt_write`]: https://docs.rs/printf-compat/0.1.0/printf_compat/output/fn.fmt_write.html
-[output::fmt_write#differences]: https://docs.rs/printf-compat/0.1.0/printf_compat/output/fn.fmt_write.html#differences
-[output::io_write]: https://docs.rs/printf-compat/0.1.0/printf_compat/output/fn.io_write.html
-[`output`]: https://docs.rs/printf-compat/0.1.0/printf_compat/output/index.html
-[`format()`]: https://docs.rs/printf-compat/0.1.0/printf_compat/fn.format.html
-[`Argument`]: https://docs.rs/printf-compat/0.1.0/printf_compat/argument/struct.Argument.html
+[output::fmt_write]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
+[`output::fmt_write`]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
+[output::fmt_write#differences]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html#differences
+[output::io_write]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.io_write.html
+[`output`]: https://docs.rs/printf-compat/0.1/printf_compat/output/index.html
+[`format()`]: https://docs.rs/printf-compat/0.1/printf_compat/fn.format.html
+[`Argument`]: https://docs.rs/printf-compat/0.1/printf_compat/argument/struct.Argument.html

@@ -5,7 +5,8 @@
 //!
 //! - [Many C][sigrok-log] [libraries][libusb-log] provide a way to provide a
 //!   custom log callback. With this crate, you can provide a pure Rust option,
-//!   and do whatever you want with it. Log it to the console,
+//!   and do whatever you want with it. Log it to the console, store it in a
+//!   string, or do anything else.
 //! - If you're writing a Rust-first program for a microcontroller and need to
 //!   interface with a C library, you might not *have* a libc and have to
 //!   reimplement it yourself. If it uses `printf`, use this crate to easily add
