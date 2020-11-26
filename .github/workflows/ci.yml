@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 1 * * *'
+
+env:
+  RUSTFLAGS: -D warnings
+  RUST_BACKTRACE: 1
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: cargo +nightly build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cargo/.crates.toml
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: thumbv7m-none-eabi
+          default: true
+          components: rustfmt, clippy
+      - run: cargo install cargo-readme
+      - run: cargo test
+      - name: cargo build no_std
+        run: cargo build --target thumbv7m-none-eabi --no-default-features
+      - name: cargo clippy
+        uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-features
+      - name: Ensure README.md is updated
+        run: [ "$(< README.md)" = "$(cargo readme)" ]
