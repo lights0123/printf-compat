@@ -48,7 +48,8 @@
 //! ## 🧹 Tested
 //!
 //! A wide [test suite] is used to ensure that many different possibilities are
-//! identical to glibc's `printf`. [Differences are documented][output::fmt_write#differences].
+//! identical to glibc's `printf`. [Differences are
+//! documented][output::fmt_write#differences].
 //!
 //! # Getting Started
 //!
@@ -87,7 +88,6 @@
 //! ```rust
 //! # #![feature(c_variadic)]
 //! # use cty::{c_char, c_int};
-//! #
 //! # #[no_mangle]
 //! # unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
 //! use printf_compat::{format, output};

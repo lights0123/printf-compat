@@ -293,6 +293,10 @@ pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ 
 /// [`fmt_write`], but may be the only option.
 ///
 /// This shares the same caveats as [`fmt_write`].
+///
+/// # Safety
+///
+/// [`VaList`]s are *very* unsafe. The passed `format` and `args` parameter must be a valid [`printf` format string](http://www.cplusplus.com/reference/cstdio/printf/).
 pub unsafe fn display<'a, 'b>(
     format: *const c_char,
     va_list: VaList<'a, 'b>,
