@@ -16,6 +16,9 @@ cstr_core = { version = "0.2.2", default-features = false }
 bitflags = "1.2.1"
 itertools = { version = "0.9.0", default-features = false }
 
+[dev-dependencies]
+cstr_core = { version = "0.2.2", features = ["alloc"] }
+
 [features]
 default = ["std"]
 std = []
