@@ -12,7 +12,6 @@ License: {{license}}
 [std::io::stdout]: https://doc.rust-lang.org/std/io/fn.stdout.html
 [`std`]: https://doc.rust-lang.org/std/index.html
 [`std::os::raw`]: https://doc.rust-lang.org/stable/std/os/raw/index.html
-[`cty`]: https://docs.rs/cty/0.2/cty/
 [output::fmt_write]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
 [`output::fmt_write`]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
 [output::fmt_write#differences]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html#differences

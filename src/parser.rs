@@ -1,7 +1,4 @@
-use core::ffi::VaList;
-
-use cstr_core::CStr;
-use cty::*;
+use core::ffi::*;
 
 use crate::{Argument, DoubleFormat, Flags, SignedInt, Specifier, UnsignedInt};
 use itertools::Itertools;

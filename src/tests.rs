@@ -1,5 +1,4 @@
-use core::ptr::null_mut;
-use cty::*;
+use core::{ffi::*, ptr::null_mut};
 
 extern "C" {
     fn asprintf(s: *mut *mut u8, format: *const u8, ...) -> c_int;
@@ -32,9 +31,9 @@ macro_rules! c_fmt {
         let mut ptr = null_mut();
         let bytes_written = asprintf(&mut ptr, $format $(, $p)*);
         assert!(bytes_written >= 0);
-        let str: String = cstr_core::CStr::from_ptr(ptr as *const _).to_string_lossy().into();
+        let s: String = CStr::from_ptr(ptr as *const _).to_string_lossy().into();
         free(ptr as _);
-        (bytes_written, str)
+        (bytes_written, s)
     }};
 }
 
