@@ -68,7 +68,7 @@ Start by adding the unstable feature:
 Now, add your function signature:
 
 ```rust
-use cty::{c_char, c_int};
+use core::ffi::{c_char, c_int};
 
 #[no_mangle]
 unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
@@ -76,8 +76,7 @@ unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int
 }
 ```
 
-If you have access to [`std`], i.e. not an embedded platform, you can use
-[`std::os::raw`] instead of [`cty`]. Also, think about what you're doing:
+Think about what you're doing:
 
 - If you're implenting `printf` *because you don't have one*, you'll want to
   call it `printf` and add `#[no_mangle]`.
@@ -118,7 +117,6 @@ License: MIT OR Apache-2.0
 [std::io::stdout]: https://doc.rust-lang.org/std/io/fn.stdout.html
 [`std`]: https://doc.rust-lang.org/std/index.html
 [`std::os::raw`]: https://doc.rust-lang.org/stable/std/os/raw/index.html
-[`cty`]: https://docs.rs/cty/0.2/cty/
 [output::fmt_write]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
 [`output::fmt_write`]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
 [output::fmt_write#differences]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html#differences

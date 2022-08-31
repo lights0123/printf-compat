@@ -64,7 +64,7 @@
 //!
 //! ```rust
 //! # #![feature(c_variadic)]
-//! use cty::{c_char, c_int};
+//! use core::ffi::{c_char, c_int};
 //!
 //! #[no_mangle]
 //! unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
@@ -72,8 +72,7 @@
 //! }
 //! ```
 //!
-//! If you have access to [`std`], i.e. not an embedded platform, you can use
-//! [`std::os::raw`] instead of [`cty`]. Also, think about what you're doing:
+//! Think about what you're doing:
 //!
 //! - If you're implenting `printf` *because you don't have one*, you'll want to
 //!   call it `printf` and add `#[no_mangle]`.
@@ -88,7 +87,7 @@
 //!
 //! ```rust
 //! # #![feature(c_variadic)]
-//! # use cty::{c_char, c_int};
+//! # use core::ffi::{c_char, c_int};
 //! # #[no_mangle]
 //! # unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
 //! use printf_compat::{format, output};
@@ -115,9 +114,9 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![feature(c_variadic)]
 
-use core::fmt;
-use cstr_core::CStr;
-use cty::*;
+extern crate alloc;
+
+use core::{fmt, ffi::*};
 
 pub mod output;
 mod parser;

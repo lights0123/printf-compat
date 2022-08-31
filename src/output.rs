@@ -1,11 +1,9 @@
 //! Various ways to output formatting data.
 
 use core::cell::Cell;
-use core::ffi::VaList;
+use core::ffi::*;
 use core::fmt;
 use core::str::from_utf8;
-
-use cty::*;
 
 #[cfg(feature = "std")]
 pub use yes_std::*;
@@ -326,7 +324,7 @@ pub unsafe fn display<'a, 'b>(
 /// ```rust
 /// #![feature(c_variadic)]
 ///
-/// use cty::{c_char, c_int};
+/// use core::ffi::{c_char, c_int};
 ///
 /// #[no_mangle]
 /// unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
@@ -335,9 +333,6 @@ pub unsafe fn display<'a, 'b>(
 ///     format.bytes_written()
 /// }
 /// ```
-///
-/// If you have access to [`std`], i.e. not an embedded platform, you can use
-/// [`std::os::raw`] instead of [`cty`].
 pub struct VaListDisplay<'a, 'b> {
     format: *const c_char,
     va_list: VaList<'a, 'b>,
