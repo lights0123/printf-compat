@@ -34,20 +34,13 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install latest nightly
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          target: thumbv7m-none-eabi
-          default: true
-          components: rustfmt, clippy
+        run: |
+          rustup toolchain install nightly --target thumbv7m-none-eabi --component clippy,rustfmt
+          rustup default nightly
       - run: cargo install cargo-readme
       - run: cargo test
       - name: cargo build no_std
         run: cargo build --target thumbv7m-none-eabi --no-default-features
-      - name: cargo clippy
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-features
+      - run: cargo clippy -- -D warnings
       - name: Ensure README.md is updated
         run: '[ "$(< README.md)" = "$(cargo readme)" ]'
