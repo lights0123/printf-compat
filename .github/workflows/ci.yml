@@ -37,6 +37,7 @@ jobs:
         run: |
           rustup toolchain install nightly --target thumbv7m-none-eabi --component clippy,rustfmt
           rustup default nightly
+      - run: cargo fmt -- --check
       - run: cargo install cargo-readme
       - run: cargo test
       - name: cargo build no_std
