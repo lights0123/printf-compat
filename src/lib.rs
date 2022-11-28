@@ -244,6 +244,8 @@ pub mod argument {
 
     impl From<SignedInt> for i64 {
         fn from(num: SignedInt) -> Self {
+            // Some casts are only needed on some platforms.
+            #[allow(clippy::unnecessary_cast)]
             match num {
                 SignedInt::Int(x) => x as i64,
                 SignedInt::Char(x) => x as i64,
@@ -294,6 +296,8 @@ pub mod argument {
 
     impl From<UnsignedInt> for u64 {
         fn from(num: UnsignedInt) -> Self {
+            // Some casts are only needed on some platforms.
+            #[allow(clippy::unnecessary_cast)]
             match num {
                 UnsignedInt::Int(x) => x as u64,
                 UnsignedInt::Char(x) => x as u64,
