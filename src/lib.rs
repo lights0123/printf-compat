@@ -111,12 +111,10 @@
 //! [`ufmt`]: https://docs.rs/ufmt/
 //! [`defmt`]: https://defmt.ferrous-systems.com/
 
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(any(test, feature = "std")), no_std)]
 #![feature(c_variadic)]
 
-extern crate alloc;
-
-use core::{fmt, ffi::*};
+use core::{ffi::*, fmt};
 
 pub mod output;
 mod parser;
