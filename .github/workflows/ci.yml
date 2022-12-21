@@ -43,8 +43,15 @@ jobs:
       - run: cargo install cargo-readme
       - run: cargo fmt --check
       - run: cargo test
+
+      # Ensure that the library doesn't depend on std/alloc. A binary
+      # that depends on the library is used for this (instead of
+      # directly build the library), otherwise accidentally depending on
+      # `alloc` would not result in an error.
       - name: cargo build no_std
         run: cargo build --target thumbv7m-none-eabi --no-default-features
+        working-directory: ci/ensure_no_std
+
       - run: cargo clippy --all-features
       - run: cargo doc --all-features
       - name: Ensure README.md is updated
