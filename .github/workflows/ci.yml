@@ -44,6 +44,7 @@ jobs:
       - run: cargo test
       - name: cargo build no_std
         run: cargo build --target thumbv7m-none-eabi --no-default-features
+        working-directory: ensure_no_std
       - name: cargo clippy
         uses: actions-rs/clippy-check@v1
         with:
