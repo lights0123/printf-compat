@@ -4,6 +4,8 @@
 
 * Remove dependency on `alloc`.
   <https://github.com/lights0123/printf-compat/pull/25>
+* Output `(null)` when a null pointer is formatted with `%s`.
+  <https://github.com/lights0123/printf-compat/pull/31>
 
 ## 0.2.0 (July 14, 2025)
 
