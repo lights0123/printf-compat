@@ -187,7 +187,16 @@ pub unsafe fn format(
                     value: args.arg(),
                     format: DoubleFormat::Hex.set_upper(ch.is_ascii_uppercase()),
                 },
-                b's' => Specifier::String(CStr::from_ptr(args.arg())),
+                b's' => {
+                    let arg: *mut c_char = args.arg();
+                    // As a common extension supported by glibc, musl, and
+                    // others, format a NULL pointer as "(null)".
+                    if arg.is_null() {
+                        Specifier::Bytes(b"(null)")
+                    } else {
+                        Specifier::String(CStr::from_ptr(arg))
+                    }
+                }
                 b'c' => Specifier::Char(args.arg()),
                 b'p' => Specifier::Pointer(args.arg()),
                 b'n' => Specifier::WriteBytesWritten(written, args.arg()),
