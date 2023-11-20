@@ -73,6 +73,7 @@ fn test_str() {
         assert_eq_fmt!(c_str!("%10.4s"), c_str!("world"));
         assert_eq_fmt!(c_str!("%-10.4s"), c_str!("world"));
         assert_eq_fmt!(c_str!("%-10s"), c_str!("world"));
+        assert_eq_fmt!(c_str!("%s"), null_mut::<c_char>());
     }
 }
 
