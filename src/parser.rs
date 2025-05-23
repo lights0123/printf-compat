@@ -74,8 +74,8 @@ impl Length {
     unsafe fn parse_signed(self, args: &mut VaList) -> SignedInt {
         match self {
             Length::Int => SignedInt::Int(args.arg()),
-            Length::Char => SignedInt::Char(args.arg()),
-            Length::Short => SignedInt::Short(args.arg()),
+            Length::Char => SignedInt::Char(args.arg::<i32>() as i8),
+            Length::Short => SignedInt::Short(args.arg::<i32>() as i16),
             Length::Long => SignedInt::Long(args.arg()),
             Length::LongLong => SignedInt::LongLong(args.arg()),
             // for some reason, these exist as different options, yet produce the same output
@@ -85,8 +85,8 @@ impl Length {
     unsafe fn parse_unsigned(self, args: &mut VaList) -> UnsignedInt {
         match self {
             Length::Int => UnsignedInt::Int(args.arg()),
-            Length::Char => UnsignedInt::Char(args.arg()),
-            Length::Short => UnsignedInt::Short(args.arg()),
+            Length::Char => UnsignedInt::Char(args.arg::<u32>() as u8),
+            Length::Short => UnsignedInt::Short(args.arg::<u32>() as u16),
             Length::Long => UnsignedInt::Long(args.arg()),
             Length::LongLong => UnsignedInt::LongLong(args.arg()),
             // for some reason, these exist as different options, yet produce the same output
@@ -188,7 +188,7 @@ pub unsafe fn format(
                     format: DoubleFormat::Hex.set_upper(ch.is_ascii_uppercase()),
                 },
                 b's' => Specifier::String(CStr::from_ptr(args.arg())),
-                b'c' => Specifier::Char(args.arg()),
+                b'c' => Specifier::Char(args.arg::<u32>() as u8),
                 b'p' => Specifier::Pointer(args.arg()),
                 b'n' => Specifier::WriteBytesWritten(written, args.arg()),
                 _ => return -1,
