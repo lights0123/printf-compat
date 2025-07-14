@@ -132,6 +132,7 @@ pub mod argument {
         ///
         /// Definitions from
         /// [Wikipedia](https://en.wikipedia.org/wiki/Printf_format_string#Flags_field).
+        #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
         pub struct Flags: u8 {
             /// Left-align the output of this placeholder. (The default is to
             /// right-align the output.)
