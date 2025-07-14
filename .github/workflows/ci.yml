@@ -34,11 +34,10 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install latest nightly
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@nightly
         with:
           toolchain: nightly
-          target: thumbv7m-none-eabi
-          default: true
+          targets: thumbv7m-none-eabi
           components: rustfmt, clippy
       - run: cargo install cargo-readme
       - run: cargo test
