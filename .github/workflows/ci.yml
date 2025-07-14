@@ -40,6 +40,7 @@ jobs:
           targets: thumbv7m-none-eabi
           components: rustfmt, clippy
       - run: cargo install cargo-readme
+      - run: cargo fmt --check
       - run: cargo test
       - name: cargo build no_std
         run: cargo build --target thumbv7m-none-eabi --no-default-features
