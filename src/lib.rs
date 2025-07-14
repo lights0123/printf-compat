@@ -116,7 +116,7 @@
 
 extern crate alloc;
 
-use core::{fmt, ffi::*};
+use core::{ffi::*, fmt};
 
 pub mod output;
 mod parser;
