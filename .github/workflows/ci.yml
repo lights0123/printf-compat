@@ -12,6 +12,7 @@ on:
 
 env:
   RUSTFLAGS: -D warnings
+  RUSTDOCFLAGS: -Dwarnings
   RUST_BACKTRACE: 1
 
 defaults:
@@ -45,5 +46,6 @@ jobs:
       - name: cargo build no_std
         run: cargo build --target thumbv7m-none-eabi --no-default-features
       - run: cargo clippy --all-features
+      - run: cargo doc --all-features
       - name: Ensure README.md is updated
         run: '[ "$(< README.md)" = "$(cargo readme)" ]'
