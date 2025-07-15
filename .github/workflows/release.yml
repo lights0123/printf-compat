@@ -1,0 +1,24 @@
+on:
+  push:
+    branches:
+      - main
+      
+name: Release
+
+permissions:
+  # Required for pushing the release tag.
+  contents: write
+  # Required for crates.io Trusted Publishing.
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rust-lang/crates-io-auth-action@v1
+        id: auth
+      - run: cargo install auto-release
+      - run: auto-release -p printf-compat --condition subject
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
