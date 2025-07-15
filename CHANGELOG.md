@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (July 14, 2025)
 
 * Remove `cty` and `cstr_core` dependencies.
   <https://github.com/lights0123/printf-compat/pull/4>
