@@ -362,7 +362,7 @@ pub mod argument {
         }
     }
 
-    /// An argument as passed to [`format`][crate::format].
+    /// An argument as passed to [`format()`].
     #[derive(Debug, Copy, Clone, PartialEq)]
     pub struct Argument<'a> {
         pub flags: Flags,
