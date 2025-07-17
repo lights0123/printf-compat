@@ -30,9 +30,8 @@
 //!
 //! ## 🔬 Small
 //!
-//! This crate is `no_std` compatible (`printf-compat = { version = "0.1",
-//! default-features = false }` in your Cargo.toml). The main machinery doesn't
-//! require the use of [`core::fmt`], and it can't panic.
+//! This crate is `no_std` compatible (with `default-features = false`).
+//! The main machinery doesn't require the use of [`core::fmt`], and it can't panic.
 //!
 //! ## 🔒 Safe (as can be)
 //!
