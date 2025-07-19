@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* Remove dependency on `alloc`.
+  <https://github.com/lights0123/printf-compat/pull/25>
+
 ## 0.2.0 (July 14, 2025)
 
 * Remove `cty` and `cstr_core` dependencies.
