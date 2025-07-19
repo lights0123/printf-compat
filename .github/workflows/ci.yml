@@ -25,15 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin
-            ~/.cargo/registry
-            ~/.cargo/git
-            ~/.cargo/.crates.toml
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install latest nightly
         uses: dtolnay/rust-toolchain@nightly
@@ -41,6 +32,8 @@ jobs:
           toolchain: nightly
           targets: thumbv7m-none-eabi
           components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
 
       - run: cargo fmt --check
       - run: cargo test
