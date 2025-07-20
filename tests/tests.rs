@@ -46,6 +46,12 @@ macro_rules! assert_eq_fmt {
             *rust_fmt($format.as_ptr().cast(), $($p),*)
         );
     };
+    ($format:literal $(, $p:expr)* => $expected:literal) => {
+        let (bytes_written, s) = c_fmt!($format $(, $p)*);
+        assert_eq!(s, $expected);
+        assert_eq!((bytes_written, s), *rust_fmt($format.as_ptr().cast(), $($p),*));
+        assert_eq!(usize::try_from(bytes_written).unwrap(), $expected.len());
+    };
 }
 
 #[test]
