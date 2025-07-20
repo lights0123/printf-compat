@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 (July 20, 2025)
 
 * Remove dependency on `alloc`.
   <https://github.com/lights0123/printf-compat/pull/25>
