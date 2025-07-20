@@ -29,9 +29,9 @@ unsafe extern "C" fn rust_fmt(str: *const c_char, mut args: ...) -> Box<(c_int, 
 }
 
 macro_rules! c_fmt {
-    ($format:expr $(, $p:expr)*) => {{
+    ($format:literal $(, $p:expr)*) => {{
         let mut ptr = null_mut();
-        let bytes_written = asprintf(&mut ptr, $format $(, $p)*);
+        let bytes_written = asprintf(&mut ptr, $format.as_ptr() $(, $p)*);
         assert!(bytes_written >= 0);
         let s: String = CStr::from_ptr(ptr).to_string_lossy().into();
         free(ptr.cast());
@@ -40,9 +40,9 @@ macro_rules! c_fmt {
 }
 
 macro_rules! assert_eq_fmt {
-    ($format:expr $(, $p:expr)*) => {
+    ($format:literal $(, $p:expr)*) => {
         assert_eq!(
-            c_fmt!($format.as_ptr().cast() $(, $p)*),
+            c_fmt!($format $(, $p)*),
             *rust_fmt($format.as_ptr().cast(), $($p),*)
         );
     };
