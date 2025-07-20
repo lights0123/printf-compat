@@ -6,6 +6,8 @@
   <https://github.com/lights0123/printf-compat/pull/25>
 * Output `(null)` when a null pointer is formatted with `%s`.
   <https://github.com/lights0123/printf-compat/pull/31>
+* Update to edition 2021.
+  <https://github.com/lights0123/printf-compat/pull/33>
 
 ## 0.2.0 (July 14, 2025)
 
