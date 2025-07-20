@@ -3,14 +3,14 @@
 use core::{ffi::*, ptr::null_mut};
 
 extern "C" {
-    fn asprintf(s: *mut *mut u8, format: *const u8, ...) -> c_int;
+    fn asprintf(s: *mut *mut c_char, format: *const c_char, ...) -> c_int;
     fn free(p: *mut c_void);
 }
 
-unsafe extern "C" fn rust_fmt(str: *const u8, mut args: ...) -> Box<(c_int, String)> {
+unsafe extern "C" fn rust_fmt(str: *const c_char, mut args: ...) -> Box<(c_int, String)> {
     let mut s = String::new();
     let bytes_written = printf_compat::format(
-        str as _,
+        str,
         args.clone().as_va_list(),
         printf_compat::output::fmt_write(&mut s),
     );
@@ -19,7 +19,7 @@ unsafe extern "C" fn rust_fmt(str: *const u8, mut args: ...) -> Box<(c_int, Stri
     assert_eq!(
         bytes_written,
         printf_compat::format(
-            str as _,
+            str,
             args.as_va_list(),
             printf_compat::output::io_write(&mut s2),
         )
@@ -33,8 +33,8 @@ macro_rules! c_fmt {
         let mut ptr = null_mut();
         let bytes_written = asprintf(&mut ptr, $format $(, $p)*);
         assert!(bytes_written >= 0);
-        let s: String = CStr::from_ptr(ptr as *const _).to_string_lossy().into();
-        free(ptr as _);
+        let s: String = CStr::from_ptr(ptr).to_string_lossy().into();
+        free(ptr.cast());
         (bytes_written, s)
     }};
 }
