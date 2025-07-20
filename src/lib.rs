@@ -117,8 +117,6 @@ use core::{ffi::*, fmt};
 
 pub mod output;
 mod parser;
-#[cfg(test)]
-mod tests;
 use argument::*;
 pub use parser::format;
 pub mod argument {

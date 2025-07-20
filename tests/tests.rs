@@ -1,3 +1,5 @@
+#![feature(c_variadic)]
+
 use core::{ffi::*, ptr::null_mut};
 
 extern "C" {
@@ -7,19 +9,19 @@ extern "C" {
 
 unsafe extern "C" fn rust_fmt(str: *const u8, mut args: ...) -> Box<(c_int, String)> {
     let mut s = String::new();
-    let bytes_written = crate::format(
+    let bytes_written = printf_compat::format(
         str as _,
         args.clone().as_va_list(),
-        crate::output::fmt_write(&mut s),
+        printf_compat::output::fmt_write(&mut s),
     );
     assert!(bytes_written >= 0);
     let mut s2 = std::io::Cursor::new(vec![]);
     assert_eq!(
         bytes_written,
-        crate::format(
+        printf_compat::format(
             str as _,
             args.as_va_list(),
-            crate::output::io_write(&mut s2),
+            printf_compat::output::io_write(&mut s2),
         )
     );
     assert_eq!(s.as_bytes(), s2.get_ref());
