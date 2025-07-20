@@ -96,6 +96,7 @@ fn test_int() {
         assert_eq_fmt!(c"%-10i", 23125);
         assert_eq_fmt!(c"%-5i", 23125);
         assert_eq_fmt!(c"%-4i", 23125);
+        assert_eq_fmt!(c"%'i", 23125);
     }
 }
 
