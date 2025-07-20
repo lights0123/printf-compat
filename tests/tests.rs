@@ -14,7 +14,7 @@ unsafe extern "C" fn rust_fmt(str: *const c_char, mut args: ...) -> Box<(c_int, 
         args.clone().as_va_list(),
         printf_compat::output::fmt_write(&mut s),
     );
-    assert!(bytes_written >= 0);
+    assert!(bytes_written >= 0, "rust failed to write");
     let mut s2 = std::io::Cursor::new(vec![]);
     assert_eq!(
         bytes_written,
@@ -32,7 +32,7 @@ macro_rules! c_fmt {
     ($format:expr $(, $p:expr)*) => {{
         let mut ptr = null_mut();
         let bytes_written = asprintf(&mut ptr, $format $(, $p)*);
-        assert!(bytes_written >= 0);
+        assert!(bytes_written >= 0, "c failed to write");
         let s: String = CStr::from_ptr(ptr).to_string_lossy().into();
         free(ptr.cast());
         (bytes_written, s)
@@ -97,6 +97,20 @@ fn test_int() {
         assert_eq_fmt!(c"%-5i", 23125);
         assert_eq_fmt!(c"%-4i", 23125);
         assert_eq_fmt!(c"%'i", 23125);
+
+        assert_eq_fmt!(c"%hhi", 125);
+        assert_eq_fmt!(c"%hi", 23125);
+        assert_eq_fmt!(c"%li", 211_126_823_125i64);
+        assert_eq_fmt!(c"%lli", 211_126_823_125i64);
+        assert_eq_fmt!(c"%ti", 23125);
+        assert_eq_fmt!(c"%zi", 23125);
+
+        assert_eq_fmt!(c"%hhu", 125);
+        assert_eq_fmt!(c"%hu", 23125);
+        assert_eq_fmt!(c"%lu", 211_126_823_125u64);
+        assert_eq_fmt!(c"%llu", 211_126_823_125u64);
+        assert_eq_fmt!(c"%tu", 23125);
+        assert_eq_fmt!(c"%zu", 23125);
     }
 }
 
