@@ -111,6 +111,30 @@ fn test_int() {
 }
 
 #[test]
+fn test_int_length_signed() {
+    unsafe {
+        assert_eq_fmt!(c"%hhi", -125 => "-125");
+        assert_eq_fmt!(c"%hi", -23125 => "-23125");
+        assert_eq_fmt!(c"%li", -211_126_823_125i64 => "-211126823125");
+        assert_eq_fmt!(c"%lli", -211_126_823_125i64 => "-211126823125");
+        assert_eq_fmt!(c"%ti", -211_126_823_125isize => "-211126823125");
+        assert_eq_fmt!(c"%zi", 211_126_823_125usize => "211126823125");
+    }
+}
+
+#[test]
+fn test_int_length_unsigned() {
+    unsafe {
+        assert_eq_fmt!(c"%hhu", 125 => "125");
+        assert_eq_fmt!(c"%hu", 23125 => "23125");
+        assert_eq_fmt!(c"%lu", 211_126_823_125u64 => "211126823125");
+        assert_eq_fmt!(c"%llu", 211_126_823_125u64 => "211126823125");
+        assert_eq_fmt!(c"%tu", 211_126_823_125isize => "211126823125");
+        assert_eq_fmt!(c"%zu", 211_126_823_125usize => "211126823125");
+    }
+}
+
+#[test]
 fn test_octal() {
     unsafe {
         assert_eq_fmt!(c"% 010o", 23125 => "0000055125");
