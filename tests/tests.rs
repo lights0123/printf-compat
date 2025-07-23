@@ -39,6 +39,17 @@ macro_rules! c_fmt {
     }};
 }
 
+/// Assert that `rust_fmt` produces the same output as C's `asprintf`,
+/// and that both match the `expected` literal.
+///
+/// This takes a format literal, followed by optional printf arguments,
+/// followed by `=>` and then the `expected` output.
+///
+/// Example usage:
+///
+/// ```
+/// assert_eq_fmt!(c"%d %d", 1, 2 => "1 2");
+/// ```
 macro_rules! assert_eq_fmt {
     ($format:literal $(, $p:expr)* => $expected:literal) => {
         let (bytes_written, s) = c_fmt!($format $(, $p)*);
