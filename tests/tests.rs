@@ -40,12 +40,6 @@ macro_rules! c_fmt {
 }
 
 macro_rules! assert_eq_fmt {
-    ($format:literal $(, $p:expr)*) => {
-        assert_eq!(
-            c_fmt!($format $(, $p)*),
-            *rust_fmt($format.as_ptr().cast(), $($p),*)
-        );
-    };
     ($format:literal $(, $p:expr)* => $expected:literal) => {
         let (bytes_written, s) = c_fmt!($format $(, $p)*);
         assert_eq!(s, $expected);
