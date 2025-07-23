@@ -79,7 +79,7 @@ fn test_str() {
 #[test]
 fn test_int() {
     unsafe {
-        assert_eq_fmt!(c"% 0*i", 23125, 17);
+        assert_eq_fmt!(c"% 0*i", 17, 23125);
         assert_eq_fmt!(c"% 010i", 23125);
         assert_eq_fmt!(c"% 10i", 23125);
         assert_eq_fmt!(c"% 5i", 23125);
