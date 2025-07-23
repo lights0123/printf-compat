@@ -57,146 +57,146 @@ macro_rules! assert_eq_fmt {
 #[test]
 fn test_plain() {
     unsafe {
-        assert_eq_fmt!(c"abc");
-        assert_eq_fmt!(c"");
-        assert_eq_fmt!(c"%%");
-        assert_eq_fmt!(c"%% def");
-        assert_eq_fmt!(c"abc %%");
-        assert_eq_fmt!(c"abc %% def");
-        assert_eq_fmt!(c"abc %%%% def");
-        assert_eq_fmt!(c"%%%%%%");
+        assert_eq_fmt!(c"abc" => "abc");
+        assert_eq_fmt!(c"" => "");
+        assert_eq_fmt!(c"%%" => "%");
+        assert_eq_fmt!(c"%% def" => "% def");
+        assert_eq_fmt!(c"abc %%" => "abc %");
+        assert_eq_fmt!(c"abc %% def" => "abc % def");
+        assert_eq_fmt!(c"abc %%%% def" => "abc %% def");
+        assert_eq_fmt!(c"%%%%%%" => "%%%");
     }
 }
 
 #[test]
 fn test_str() {
     unsafe {
-        assert_eq_fmt!(c"hello %s", c"world");
-        assert_eq_fmt!(c"hello %%%s", c"world");
-        assert_eq_fmt!(c"%10s", c"world");
-        assert_eq_fmt!(c"%.4s", c"world");
-        assert_eq_fmt!(c"%10.4s", c"world");
-        assert_eq_fmt!(c"%-10.4s", c"world");
-        assert_eq_fmt!(c"%-10s", c"world");
-        assert_eq_fmt!(c"%s", null_mut::<c_char>());
+        assert_eq_fmt!(c"hello %s", c"world" => "hello world");
+        assert_eq_fmt!(c"hello %%%s", c"world" => "hello %world");
+        assert_eq_fmt!(c"%10s", c"world" => "     world");
+        assert_eq_fmt!(c"%.4s", c"world" => "worl");
+        assert_eq_fmt!(c"%10.4s", c"world" => "      worl");
+        assert_eq_fmt!(c"%-10.4s", c"world" => "worl      ");
+        assert_eq_fmt!(c"%-10s", c"world" => "world     ");
+        assert_eq_fmt!(c"%s", null_mut::<c_char>() => "(null)");
     }
 }
 
 #[test]
 fn test_int() {
     unsafe {
-        assert_eq_fmt!(c"% 0*i", 17, 23125);
-        assert_eq_fmt!(c"% 010i", 23125);
-        assert_eq_fmt!(c"% 10i", 23125);
-        assert_eq_fmt!(c"% 5i", 23125);
-        assert_eq_fmt!(c"% 4i", 23125);
-        assert_eq_fmt!(c"%- 010i", 23125);
-        assert_eq_fmt!(c"%- 10i", 23125);
-        assert_eq_fmt!(c"%- 5i", 23125);
-        assert_eq_fmt!(c"%- 4i", 23125);
-        assert_eq_fmt!(c"%+ 010i", 23125);
-        assert_eq_fmt!(c"%+ 10i", 23125);
-        assert_eq_fmt!(c"%+ 5i", 23125);
-        assert_eq_fmt!(c"%+ 4i", 23125);
-        assert_eq_fmt!(c"%-010i", 23125);
-        assert_eq_fmt!(c"%-10i", 23125);
-        assert_eq_fmt!(c"%-5i", 23125);
-        assert_eq_fmt!(c"%-4i", 23125);
+        assert_eq_fmt!(c"% 0*i", 17, 23125 => " 0000000000023125");
+        assert_eq_fmt!(c"% 010i", 23125 => " 000023125");
+        assert_eq_fmt!(c"% 10i", 23125 => "     23125");
+        assert_eq_fmt!(c"% 5i", 23125 => " 23125");
+        assert_eq_fmt!(c"% 4i", 23125 => " 23125");
+        assert_eq_fmt!(c"%- 010i", 23125 => " 23125    ");
+        assert_eq_fmt!(c"%- 10i", 23125 => " 23125    ");
+        assert_eq_fmt!(c"%- 5i", 23125 => " 23125");
+        assert_eq_fmt!(c"%- 4i", 23125 => " 23125");
+        assert_eq_fmt!(c"%+ 010i", 23125 => "+000023125");
+        assert_eq_fmt!(c"%+ 10i", 23125 => "    +23125");
+        assert_eq_fmt!(c"%+ 5i", 23125 => "+23125");
+        assert_eq_fmt!(c"%+ 4i", 23125 => "+23125");
+        assert_eq_fmt!(c"%-010i", 23125 => "23125     ");
+        assert_eq_fmt!(c"%-10i", 23125 => "23125     ");
+        assert_eq_fmt!(c"%-5i", 23125 => "23125");
+        assert_eq_fmt!(c"%-4i", 23125 => "23125");
     }
 }
 
 #[test]
 fn test_octal() {
     unsafe {
-        assert_eq_fmt!(c"% 010o", 23125);
-        assert_eq_fmt!(c"% 10o", 23125);
-        assert_eq_fmt!(c"% 5o", 23125);
-        assert_eq_fmt!(c"% 4o", 23125);
-        assert_eq_fmt!(c"%- 010o", 23125);
-        assert_eq_fmt!(c"%- 10o", 23125);
-        assert_eq_fmt!(c"%- 5o", 23125);
-        assert_eq_fmt!(c"%- 4o", 23125);
-        assert_eq_fmt!(c"%+ 010o", 23125);
-        assert_eq_fmt!(c"%+ 10o", 23125);
-        assert_eq_fmt!(c"%+ 5o", 23125);
-        assert_eq_fmt!(c"%+ 4o", 23125);
-        assert_eq_fmt!(c"%-010o", 23125);
-        assert_eq_fmt!(c"%-10o", 23125);
-        assert_eq_fmt!(c"%-5o", 23125);
-        assert_eq_fmt!(c"%-4o", 23125);
+        assert_eq_fmt!(c"% 010o", 23125 => "0000055125");
+        assert_eq_fmt!(c"% 10o", 23125 => "     55125");
+        assert_eq_fmt!(c"% 5o", 23125 => "55125");
+        assert_eq_fmt!(c"% 4o", 23125 => "55125");
+        assert_eq_fmt!(c"%- 010o", 23125 => "55125     ");
+        assert_eq_fmt!(c"%- 10o", 23125 => "55125     ");
+        assert_eq_fmt!(c"%- 5o", 23125 => "55125");
+        assert_eq_fmt!(c"%- 4o", 23125 => "55125");
+        assert_eq_fmt!(c"%+ 010o", 23125 => "0000055125");
+        assert_eq_fmt!(c"%+ 10o", 23125 => "     55125");
+        assert_eq_fmt!(c"%+ 5o", 23125 => "55125");
+        assert_eq_fmt!(c"%+ 4o", 23125 => "55125");
+        assert_eq_fmt!(c"%-010o", 23125 => "55125     ");
+        assert_eq_fmt!(c"%-10o", 23125 => "55125     ");
+        assert_eq_fmt!(c"%-5o", 23125 => "55125");
+        assert_eq_fmt!(c"%-4o", 23125 => "55125");
     }
 }
 
 #[test]
 fn test_hex() {
     unsafe {
-        assert_eq_fmt!(c"% 010x", 23125);
-        assert_eq_fmt!(c"% 10x", 23125);
-        assert_eq_fmt!(c"% 5x", 23125);
-        assert_eq_fmt!(c"% 4x", 23125);
-        assert_eq_fmt!(c"%- 010x", 23125);
-        assert_eq_fmt!(c"%- 10x", 23125);
-        assert_eq_fmt!(c"%- 5x", 23125);
-        assert_eq_fmt!(c"%- 4x", 23125);
-        assert_eq_fmt!(c"%+ 010x", 23125);
-        assert_eq_fmt!(c"%+ 10x", 23125);
-        assert_eq_fmt!(c"%+ 5x", 23125);
-        assert_eq_fmt!(c"%+ 4x", 23125);
-        assert_eq_fmt!(c"%-010x", 23125);
-        assert_eq_fmt!(c"%-10x", 23125);
-        assert_eq_fmt!(c"%-5x", 23125);
-        assert_eq_fmt!(c"%-4x", 23125);
+        assert_eq_fmt!(c"% 010x", 23125 => "0000005a55");
+        assert_eq_fmt!(c"% 10x", 23125 => "      5a55");
+        assert_eq_fmt!(c"% 5x", 23125 => " 5a55");
+        assert_eq_fmt!(c"% 4x", 23125 => "5a55");
+        assert_eq_fmt!(c"%- 010x", 23125 => "5a55      ");
+        assert_eq_fmt!(c"%- 10x", 23125 => "5a55      ");
+        assert_eq_fmt!(c"%- 5x", 23125 => "5a55 ");
+        assert_eq_fmt!(c"%- 4x", 23125 => "5a55");
+        assert_eq_fmt!(c"%+ 010x", 23125 => "0000005a55");
+        assert_eq_fmt!(c"%+ 10x", 23125 => "      5a55");
+        assert_eq_fmt!(c"%+ 5x", 23125 => " 5a55");
+        assert_eq_fmt!(c"%+ 4x", 23125 => "5a55");
+        assert_eq_fmt!(c"%-010x", 23125 => "5a55      ");
+        assert_eq_fmt!(c"%-10x", 23125 => "5a55      ");
+        assert_eq_fmt!(c"%-5x", 23125 => "5a55 ");
+        assert_eq_fmt!(c"%-4x", 23125 => "5a55");
 
-        assert_eq_fmt!(c"%# 010x", 23125);
-        assert_eq_fmt!(c"%# 10x", 23125);
-        assert_eq_fmt!(c"%# 5x", 23125);
-        assert_eq_fmt!(c"%# 4x", 23125);
-        assert_eq_fmt!(c"%#- 010x", 23125);
-        assert_eq_fmt!(c"%#- 10x", 23125);
-        assert_eq_fmt!(c"%#- 5x", 23125);
-        assert_eq_fmt!(c"%#- 4x", 23125);
-        assert_eq_fmt!(c"%#+ 010x", 23125);
-        assert_eq_fmt!(c"%#+ 10x", 23125);
-        assert_eq_fmt!(c"%#+ 5x", 23125);
-        assert_eq_fmt!(c"%#+ 4x", 23125);
-        assert_eq_fmt!(c"%#-010x", 23125);
-        assert_eq_fmt!(c"%#-10x", 23125);
-        assert_eq_fmt!(c"%#-5x", 23125);
-        assert_eq_fmt!(c"%#-4x", 23125);
+        assert_eq_fmt!(c"%# 010x", 23125 => "0x00005a55");
+        assert_eq_fmt!(c"%# 10x", 23125 => "    0x5a55");
+        assert_eq_fmt!(c"%# 5x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%# 4x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%#- 010x", 23125 => "0x5a55    ");
+        assert_eq_fmt!(c"%#- 10x", 23125 => "0x5a55    ");
+        assert_eq_fmt!(c"%#- 5x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%#- 4x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%#+ 010x", 23125 => "0x00005a55");
+        assert_eq_fmt!(c"%#+ 10x", 23125 => "    0x5a55");
+        assert_eq_fmt!(c"%#+ 5x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%#+ 4x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%#-010x", 23125 => "0x5a55    ");
+        assert_eq_fmt!(c"%#-10x", 23125 => "0x5a55    ");
+        assert_eq_fmt!(c"%#-5x", 23125 => "0x5a55");
+        assert_eq_fmt!(c"%#-4x", 23125 => "0x5a55");
 
-        assert_eq_fmt!(c"% 010X", 23125);
-        assert_eq_fmt!(c"% 10X", 23125);
-        assert_eq_fmt!(c"% 5X", 23125);
-        assert_eq_fmt!(c"% 4X", 23125);
-        assert_eq_fmt!(c"%- 010X", 23125);
-        assert_eq_fmt!(c"%- 10X", 23125);
-        assert_eq_fmt!(c"%- 5X", 23125);
-        assert_eq_fmt!(c"%- 4X", 23125);
-        assert_eq_fmt!(c"%+ 010X", 23125);
-        assert_eq_fmt!(c"%+ 10X", 23125);
-        assert_eq_fmt!(c"%+ 5X", 23125);
-        assert_eq_fmt!(c"%+ 4X", 23125);
-        assert_eq_fmt!(c"%-010X", 23125);
-        assert_eq_fmt!(c"%-10X", 23125);
-        assert_eq_fmt!(c"%-5X", 23125);
-        assert_eq_fmt!(c"%-4X", 23125);
+        assert_eq_fmt!(c"% 010X", 23125 => "0000005A55");
+        assert_eq_fmt!(c"% 10X", 23125 => "      5A55");
+        assert_eq_fmt!(c"% 5X", 23125 => " 5A55");
+        assert_eq_fmt!(c"% 4X", 23125 => "5A55");
+        assert_eq_fmt!(c"%- 010X", 23125 => "5A55      ");
+        assert_eq_fmt!(c"%- 10X", 23125 => "5A55      ");
+        assert_eq_fmt!(c"%- 5X", 23125 => "5A55 ");
+        assert_eq_fmt!(c"%- 4X", 23125 => "5A55");
+        assert_eq_fmt!(c"%+ 010X", 23125 => "0000005A55");
+        assert_eq_fmt!(c"%+ 10X", 23125 => "      5A55");
+        assert_eq_fmt!(c"%+ 5X", 23125 => " 5A55");
+        assert_eq_fmt!(c"%+ 4X", 23125 => "5A55");
+        assert_eq_fmt!(c"%-010X", 23125 => "5A55      ");
+        assert_eq_fmt!(c"%-10X", 23125 => "5A55      ");
+        assert_eq_fmt!(c"%-5X", 23125 => "5A55 ");
+        assert_eq_fmt!(c"%-4X", 23125 => "5A55");
     }
 }
 
 #[test]
 fn test_float() {
     unsafe {
-        assert_eq_fmt!(c"%f", 1234f64);
-        assert_eq_fmt!(c"%.5f", 1234f64);
-        assert_eq_fmt!(c"%.*f", 1234f64, 3);
+        assert_eq_fmt!(c"%f", 1234f64 => "1234.000000");
+        assert_eq_fmt!(c"%.5f", 1234f64 => "1234.00000");
+        assert_eq_fmt!(c"%.*f", 1234f64, 3 => "1234.000");
     }
 }
 
 #[test]
 fn test_char() {
     unsafe {
-        assert_eq_fmt!(c"%c", b'a' as c_int);
-        assert_eq_fmt!(c"%10c", b'a' as c_int);
-        assert_eq_fmt!(c"%-10c", b'a' as c_int);
+        assert_eq_fmt!(c"%c", b'a' as c_int => "a");
+        assert_eq_fmt!(c"%10c", b'a' as c_int => "         a");
+        assert_eq_fmt!(c"%-10c", b'a' as c_int => "a         ");
     }
 }
