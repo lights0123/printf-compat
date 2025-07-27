@@ -59,6 +59,29 @@ macro_rules! assert_eq_fmt {
     };
 }
 
+/// Assert that a format string fails to parse. This checks that both
+/// C's `asprintf` and `printf_compat::format` return -1.
+fn assert_fmt_err(fmt: &CStr) {
+    let mut ptr = null_mut();
+    let bytes_written = unsafe { asprintf(&mut ptr, fmt.as_ptr()) };
+    assert_eq!(bytes_written, -1, "asprintf parse unexpectedly succeeded");
+
+    unsafe extern "C" fn format(str: *const c_char, args: ...) -> c_int {
+        let mut s = String::new();
+        let bytes_written = printf_compat::format(
+            str,
+            args.clone().as_va_list(),
+            printf_compat::output::fmt_write(&mut s),
+        );
+        bytes_written
+    }
+    let bytes_written = unsafe { format(fmt.as_ptr()) };
+    assert_eq!(
+        bytes_written, -1,
+        "printf_compat::output parse unexpectedly succeeded"
+    );
+}
+
 #[test]
 fn test_plain() {
     unsafe {
@@ -228,4 +251,10 @@ fn test_char() {
         assert_eq_fmt!(c"%10c", b'a' as c_int => "         a");
         assert_eq_fmt!(c"%-10c", b'a' as c_int => "a         ");
     }
+}
+
+#[test]
+fn test_errors() {
+    assert_fmt_err(c"%");
+    assert_fmt_err(c"%1");
 }
