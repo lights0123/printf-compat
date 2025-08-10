@@ -118,10 +118,18 @@ use core::{ffi::*, fmt};
 pub mod output;
 mod parser;
 use argument::*;
+use core::convert::From;
 pub use parser::format;
 pub mod argument {
     use super::*;
-
+    use core::prelude::rust_2024::derive;
+    use core::cmp::*;
+    use core::marker::*;
+    use core::clone::Clone;
+    use core::hash::Hash;
+    use core::matches;
+    use core::option::Option::{self, Some, None};
+    use crate::fmt::Debug;
     bitflags::bitflags! {
         /// Flags field.
         ///

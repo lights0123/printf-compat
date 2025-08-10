@@ -1,9 +1,14 @@
 //! Various ways to output formatting data.
 
 use core::cell::Cell;
+use core::default::Default;
 use core::ffi::*;
 use core::fmt;
+use core::ops::FnMut;
+use core::option::Option;
+use core::result::Result::{Ok, Err};
 use core::str::from_utf8;
+use core::write;
 
 #[cfg(feature = "std")]
 pub use yes_std::*;
@@ -66,7 +71,7 @@ macro_rules! define_numeric {
             if $flags.contains(Flags::PREPEND_PLUS) {
                 write!(
                     $w,
-                    concat!("{:<+width$.prec$", $ty, "}"),
+                    core::concat!("{:<+width$.prec$", $ty, "}"),
                     $data,
                     width = $width as usize,
                     prec = $precision as usize
@@ -74,7 +79,7 @@ macro_rules! define_numeric {
             } else if $flags.contains(Flags::PREPEND_SPACE) && !$data.is_sign_negative() {
                 write!(
                     $w,
-                    concat!(" {:<width$.prec$", $ty, "}"),
+                    core::concat!(" {:<width$.prec$", $ty, "}"),
                     $data,
                     width = ($width as usize).wrapping_sub(1),
                     prec = $precision as usize
@@ -82,7 +87,7 @@ macro_rules! define_numeric {
             } else {
                 write!(
                     $w,
-                    concat!("{:<width$.prec$", $ty, "}"),
+                    core::concat!("{:<width$.prec$", $ty, "}"),
                     $data,
                     width = $width as usize,
                     prec = $precision as usize
@@ -92,7 +97,7 @@ macro_rules! define_numeric {
             if $flags.contains(Flags::PREPEND_ZERO) {
                 write!(
                     $w,
-                    concat!("{:+0width$.prec$", $ty, "}"),
+                    core::concat!("{:+0width$.prec$", $ty, "}"),
                     $data,
                     width = $width as usize,
                     prec = $precision as usize
@@ -100,7 +105,7 @@ macro_rules! define_numeric {
             } else {
                 write!(
                     $w,
-                    concat!("{:+width$.prec$", $ty, "}"),
+                    core::concat!("{:+width$.prec$", $ty, "}"),
                     $data,
                     width = $width as usize,
                     prec = $precision as usize
@@ -111,7 +116,7 @@ macro_rules! define_numeric {
                 let mut d = DummyWriter(0);
                 let _ = write!(
                     d,
-                    concat!("{:.prec$", $ty, "}"),
+                    core::concat!("{:.prec$", $ty, "}"),
                     $data,
                     prec = $precision as usize
                 );
@@ -120,7 +125,7 @@ macro_rules! define_numeric {
                 }
                 write!(
                     $w,
-                    concat!(" {:0width$.prec$", $ty, "}"),
+                    core::concat!(" {:0width$.prec$", $ty, "}"),
                     $data,
                     width = ($width as usize).wrapping_sub(1),
                     prec = $precision as usize
@@ -128,7 +133,7 @@ macro_rules! define_numeric {
             } else {
                 write!(
                     $w,
-                    concat!("{:0width$.prec$", $ty, "}"),
+                    core::concat!("{:0width$.prec$", $ty, "}"),
                     $data,
                     width = $width as usize,
                     prec = $precision as usize
@@ -139,7 +144,7 @@ macro_rules! define_numeric {
                 let mut d = DummyWriter(0);
                 let _ = write!(
                     d,
-                    concat!("{:.prec$", $ty, "}"),
+                    core::concat!("{:.prec$", $ty, "}"),
                     $data,
                     prec = $precision as usize
                 );
@@ -149,7 +154,7 @@ macro_rules! define_numeric {
             }
             write!(
                 $w,
-                concat!("{:width$.prec$", $ty, "}"),
+                core::concat!("{:width$.prec$", $ty, "}"),
                 $data,
                 width = $width as usize,
                 prec = $precision as usize
@@ -167,14 +172,14 @@ macro_rules! define_unumeric {
             if $flags.contains(Flags::ALTERNATE_FORM) {
                 write!(
                     $w,
-                    concat!("{:<#width$", $ty, "}"),
+                    core::concat!("{:<#width$", $ty, "}"),
                     $data,
                     width = $width as usize
                 )
             } else {
                 write!(
                     $w,
-                    concat!("{:<width$", $ty, "}"),
+                    core::concat!("{:<width$", $ty, "}"),
                     $data,
                     width = $width as usize
                 )
@@ -183,14 +188,14 @@ macro_rules! define_unumeric {
             if $flags.contains(Flags::PREPEND_ZERO) {
                 write!(
                     $w,
-                    concat!("{:#0width$", $ty, "}"),
+                    core::concat!("{:#0width$", $ty, "}"),
                     $data,
                     width = $width as usize
                 )
             } else {
                 write!(
                     $w,
-                    concat!("{:#width$", $ty, "}"),
+                    core::concat!("{:#width$", $ty, "}"),
                     $data,
                     width = $width as usize
                 )
@@ -198,14 +203,14 @@ macro_rules! define_unumeric {
         } else if $flags.contains(Flags::PREPEND_ZERO) {
             write!(
                 $w,
-                concat!("{:0width$", $ty, "}"),
+                core::concat!("{:0width$", $ty, "}"),
                 $data,
                 width = $width as usize
             )
         } else {
             write!(
                 $w,
-                concat!("{:width$", $ty, "}"),
+                core::concat!("{:width$", $ty, "}"),
                 $data,
                 width = $width as usize
             )

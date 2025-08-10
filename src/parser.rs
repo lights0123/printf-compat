@@ -1,6 +1,7 @@
-use core::ffi::*;
-
 use crate::{Argument, DoubleFormat, Flags, SignedInt, Specifier, UnsignedInt};
+use core::ffi::*;
+use core::ops::FnMut;
+use core::option::Option::{self, None, Some};
 use itertools::Itertools;
 
 fn next_char(sub: &[u8]) -> &[u8] {
