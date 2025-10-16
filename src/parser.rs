@@ -74,8 +74,8 @@ impl Length {
     unsafe fn parse_signed(self, args: &mut VaList) -> SignedInt {
         match self {
             Length::Int => SignedInt::Int(args.arg()),
-            Length::Char => SignedInt::Char(args.arg::<i32>() as i8),
-            Length::Short => SignedInt::Short(args.arg::<i32>() as i16),
+            Length::Char => SignedInt::Char(args.arg::<c_int>() as c_schar),
+            Length::Short => SignedInt::Short(args.arg::<c_int>() as c_short),
             Length::Long => SignedInt::Long(args.arg()),
             Length::LongLong => SignedInt::LongLong(args.arg()),
             // for some reason, these exist as different options, yet produce the same output
@@ -85,8 +85,8 @@ impl Length {
     unsafe fn parse_unsigned(self, args: &mut VaList) -> UnsignedInt {
         match self {
             Length::Int => UnsignedInt::Int(args.arg()),
-            Length::Char => UnsignedInt::Char(args.arg::<u32>() as u8),
-            Length::Short => UnsignedInt::Short(args.arg::<u32>() as u16),
+            Length::Char => UnsignedInt::Char(args.arg::<c_uint>() as c_uchar),
+            Length::Short => UnsignedInt::Short(args.arg::<c_uint>() as c_ushort),
             Length::Long => UnsignedInt::Long(args.arg()),
             Length::LongLong => UnsignedInt::LongLong(args.arg()),
             // for some reason, these exist as different options, yet produce the same output
@@ -197,7 +197,21 @@ pub unsafe fn format(
                         Specifier::String(CStr::from_ptr(arg))
                     }
                 }
-                b'c' => Specifier::Char(args.arg::<u32>() as u8),
+                b'c' => {
+                    trait CharToInt {
+                        type IntType;
+                    }
+
+                    impl CharToInt for c_schar {
+                        type IntType = c_int;
+                    }
+
+                    impl CharToInt for c_uchar {
+                        type IntType = c_uint;
+                    }
+
+                    Specifier::Char(args.arg::<<c_char as CharToInt>::IntType>() as c_char)
+                }
                 b'p' => Specifier::Pointer(args.arg()),
                 b'n' => Specifier::WriteBytesWritten(written, args.arg()),
                 _ => return -1,

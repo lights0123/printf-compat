@@ -400,7 +400,7 @@ pub mod argument {
         /// need to null terminate a string to print it, you can skip that step.
         String(&'a CStr),
         /// `c`
-        Char(u8),
+        Char(c_char),
         /// `x`
         Hex(UnsignedInt),
         /// `X`
