@@ -274,9 +274,9 @@ pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ 
             },
             Specifier::Char(data) => {
                 if flags.contains(Flags::LEFT_ALIGN) {
-                    write!(w, "{:width$}", data as char, width = width as usize)
+                    write!(w, "{:width$}", data as u8 as char, width = width as usize)
                 } else {
-                    write!(w, "{:>width$}", data as char, width = width as usize)
+                    write!(w, "{:>width$}", data as u8 as char, width = width as usize)
                 }
             }
             Specifier::Pointer(data) => {
