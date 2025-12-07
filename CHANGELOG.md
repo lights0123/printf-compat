@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (December 7, 2025)
 
 * Fix compilation errors on recent nightlies due to changes in the std
   [`VaList` implementation](https://github.com/rust-lang/rust/pull/141980).
