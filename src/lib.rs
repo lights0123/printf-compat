@@ -65,7 +65,7 @@
 //! # #![feature(c_variadic)]
 //! use core::ffi::{c_char, c_int};
 //!
-//! #[no_mangle]
+//! #[unsafe(no_mangle)]
 //! unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
 //!     todo!()
 //! }
@@ -74,20 +74,20 @@
 //! Think about what you're doing:
 //!
 //! - If you're implenting `printf` *because you don't have one*, you'll want to
-//!   call it `printf` and add `#[no_mangle]`.
+//!   call it `printf` and add `#[unsafe(no_mangle)]`.
 //! - Likewise, if you're creating a custom log function for a C library and it
-//!   expects to call a globally-defined function, keep `#[no_mangle]` and
+//!   expects to call a globally-defined function, keep `#[unsafe(no_mangle)]` and
 //!   rename the function to what it expects.
 //! - On the other hand, if your C library expects you to call a function to
 //!   register a callback ([example 1][sigrok-log], [example 2][libusb-log]),
-//!   remove `#[no_mangle]`.
+//!   remove `#[unsafe(no_mangle)]`.
 //!
 //! Now, add your logic:
 //!
 //! ```rust
 //! # #![feature(c_variadic)]
 //! # use core::ffi::{c_char, c_int};
-//! # #[no_mangle]
+//! # #[unsafe(no_mangle)]
 //! # unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
 //! use printf_compat::{format, output};
 //! let mut s = String::new();
