@@ -73,7 +73,7 @@
 //!
 //! Think about what you're doing:
 //!
-//! - If you're implenting `printf` *because you don't have one*, you'll want to
+//! - If you're implementing `printf` *because you don't have one*, you'll want to
 //!   call it `printf` and add `#[unsafe(no_mangle)]`.
 //! - Likewise, if you're creating a custom log function for a C library and it
 //!   expects to call a globally-defined function, keep `#[unsafe(no_mangle)]` and

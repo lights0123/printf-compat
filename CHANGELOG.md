@@ -3,7 +3,7 @@
 ## Unreleased
 
 * Fix compilation errors on recent nightlies due to changes in the std
-  [`VaList` implemenation](https://github.com/rust-lang/rust/pull/141980).
+  [`VaList` implementation](https://github.com/rust-lang/rust/pull/141980).
   <https://github.com/lights0123/printf-compat/pull/45>
 * Switch to the 2024 edition.
   <https://github.com/lights0123/printf-compat/pull/46>
