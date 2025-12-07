@@ -2,7 +2,7 @@
 
 use core::{ffi::*, ptr::null_mut};
 
-extern "C" {
+unsafe extern "C" {
     fn asprintf(s: *mut *mut c_char, format: *const c_char, ...) -> c_int;
     fn free(p: *mut c_void);
 }
