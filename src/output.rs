@@ -323,7 +323,7 @@ pub unsafe fn display<'a>(format: *const c_char, va_list: VaList<'a>) -> VaListD
 ///
 /// use core::ffi::{c_char, c_int};
 ///
-/// #[no_mangle]
+/// #[unsafe(no_mangle)]
 /// unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
 ///     let format = unsafe { printf_compat::output::display(str, args) };
 ///     println!("{}", format);
