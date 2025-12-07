@@ -325,7 +325,7 @@ pub unsafe fn display<'a>(format: *const c_char, va_list: VaList<'a>) -> VaListD
 ///
 /// #[no_mangle]
 /// unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
-///     let format = printf_compat::output::display(str, args);
+///     let format = unsafe { printf_compat::output::display(str, args) };
 ///     println!("{}", format);
 ///     format.bytes_written()
 /// }
@@ -348,11 +348,7 @@ impl<'a> fmt::Display for VaListDisplay<'a> {
         unsafe {
             let bytes = crate::format(self.format, self.va_list.clone(), fmt_write(f));
             self.written.set(bytes);
-            if bytes < 0 {
-                Err(fmt::Error)
-            } else {
-                Ok(())
-            }
+            if bytes < 0 { Err(fmt::Error) } else { Ok(()) }
         }
     }
 }
