@@ -66,7 +66,7 @@
 //! use core::ffi::{c_char, c_int};
 //!
 //! #[no_mangle]
-//! unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
+//! unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
 //!     todo!()
 //! }
 //! ```
@@ -88,10 +88,10 @@
 //! # #![feature(c_variadic)]
 //! # use core::ffi::{c_char, c_int};
 //! # #[no_mangle]
-//! # unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
+//! # unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
 //! use printf_compat::{format, output};
 //! let mut s = String::new();
-//! let bytes_written = format(str, args.as_va_list(), output::fmt_write(&mut s));
+//! let bytes_written = format(str, args, output::fmt_write(&mut s));
 //! println!("{}", s);
 //! bytes_written
 //! # }
