@@ -306,10 +306,7 @@ pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ 
 /// # Safety
 ///
 /// [`VaList`]s are *very* unsafe. The passed `format` and `args` parameter must be a valid [`printf` format string](http://www.cplusplus.com/reference/cstdio/printf/).
-pub unsafe fn display<'a, 'b>(
-    format: *const c_char,
-    va_list: VaList<'a, 'b>,
-) -> VaListDisplay<'a, 'b> {
+pub unsafe fn display<'a>(format: *const c_char, va_list: VaList<'a>) -> VaListDisplay<'a> {
     VaListDisplay {
         format,
         va_list,
@@ -327,29 +324,29 @@ pub unsafe fn display<'a, 'b>(
 /// use core::ffi::{c_char, c_int};
 ///
 /// #[no_mangle]
-/// unsafe extern "C" fn c_library_print(str: *const c_char, mut args: ...) -> c_int {
-///     let format = printf_compat::output::display(str, args.as_va_list());
+/// unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
+///     let format = printf_compat::output::display(str, args);
 ///     println!("{}", format);
 ///     format.bytes_written()
 /// }
 /// ```
-pub struct VaListDisplay<'a, 'b> {
+pub struct VaListDisplay<'a> {
     format: *const c_char,
-    va_list: VaList<'a, 'b>,
+    va_list: VaList<'a>,
     written: Cell<c_int>,
 }
 
-impl VaListDisplay<'_, '_> {
+impl VaListDisplay<'_> {
     /// Get the number of bytes written, or 0 if there was an error.
     pub fn bytes_written(&self) -> c_int {
         self.written.get()
     }
 }
 
-impl<'a, 'b> fmt::Display for VaListDisplay<'a, 'b> {
+impl<'a> fmt::Display for VaListDisplay<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         unsafe {
-            let bytes = crate::format(self.format, self.va_list.clone().as_va_list(), fmt_write(f));
+            let bytes = crate::format(self.format, self.va_list.clone(), fmt_write(f));
             self.written.set(bytes);
             if bytes < 0 {
                 Err(fmt::Error)

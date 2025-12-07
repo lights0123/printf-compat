@@ -7,22 +7,15 @@ extern "C" {
     fn free(p: *mut c_void);
 }
 
-unsafe extern "C" fn rust_fmt(str: *const c_char, mut args: ...) -> Box<(c_int, String)> {
+unsafe extern "C" fn rust_fmt(str: *const c_char, args: ...) -> Box<(c_int, String)> {
     let mut s = String::new();
-    let bytes_written = printf_compat::format(
-        str,
-        args.clone().as_va_list(),
-        printf_compat::output::fmt_write(&mut s),
-    );
+    let bytes_written =
+        printf_compat::format(str, args.clone(), printf_compat::output::fmt_write(&mut s));
     assert!(bytes_written >= 0);
     let mut s2 = std::io::Cursor::new(vec![]);
     assert_eq!(
         bytes_written,
-        printf_compat::format(
-            str,
-            args.as_va_list(),
-            printf_compat::output::io_write(&mut s2),
-        )
+        printf_compat::format(str, args, printf_compat::output::io_write(&mut s2),)
     );
     assert_eq!(s.as_bytes(), s2.get_ref());
     Box::new((bytes_written, s))
@@ -68,11 +61,8 @@ fn assert_fmt_err(fmt: &CStr) {
 
     unsafe extern "C" fn format(str: *const c_char, args: ...) -> c_int {
         let mut s = String::new();
-        let bytes_written = printf_compat::format(
-            str,
-            args.clone().as_va_list(),
-            printf_compat::output::fmt_write(&mut s),
-        );
+        let bytes_written =
+            printf_compat::format(str, args.clone(), printf_compat::output::fmt_write(&mut s));
         bytes_written
     }
     let bytes_written = unsafe { format(fmt.as_ptr()) };
