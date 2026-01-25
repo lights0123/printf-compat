@@ -3,7 +3,6 @@ name = "printf-compat"
 description = "printf reimplemented in Rust"
 version = "0.3.0"
 repository = "https://github.com/lights0123/printf-compat"
-authors = ["lights0123 <developer@lights0123.com>"]
 edition = "2024"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
