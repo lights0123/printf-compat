@@ -256,3 +256,17 @@ fn test_errors() {
     assert_fmt_err(c"%");
     assert_fmt_err(c"%1");
 }
+
+/// Test that specifying precision with an integral type does _not_
+/// match C. This is one of the documented differences in
+/// `fmt_write`. If this is fixed, make sure to update the
+/// documentation.
+///
+/// https://github.com/lights0123/printf-compat/issues/50
+#[test]
+fn test_int_precision() {
+    unsafe {
+        assert_eq!(c_fmt!(c"%.3d", 1).1, "001");
+        assert_eq!(rust_fmt(c"%.3d".as_ptr(), 1).1, "1");
+    }
+}
