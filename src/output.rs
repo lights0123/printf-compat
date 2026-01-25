@@ -221,12 +221,12 @@ macro_rules! define_unumeric {
 ///
 /// - only valid UTF-8 data can be printed.
 /// - an `X` format specifier with a `#` flag prints the hex data in uppercase,
-///   but the leading `0x` is still lowercase
+///   but the leading `0x` is still lowercase.
 /// - an `o` format specifier with a `#` flag precedes the number with an `o`
-///   instead of `0`
+///   instead of `0`.
 /// - `g`/`G` (shorted floating point) is aliased to `f`/`F`` (decimal floating
-///   point)
-/// - same for `a`/`A` (hex floating point)
+///   point).
+/// - same for `a`/`A` (hex floating point).
 /// - the `n` format specifier, [`Specifier::WriteBytesWritten`], is not
 ///   implemented and will cause an error if encountered.
 pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ {
