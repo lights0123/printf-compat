@@ -229,6 +229,8 @@ macro_rules! define_unumeric {
 /// - same for `a`/`A` (hex floating point).
 /// - the `n` format specifier, [`Specifier::WriteBytesWritten`], is not
 ///   implemented and will cause an error if encountered.
+/// - precision is ignored for integral types, instead of specifying the
+///   minimum number of digits.
 pub fn fmt_write(w: &mut impl fmt::Write) -> impl FnMut(Argument) -> c_int + '_ {
     use fmt::Write;
     move |Argument {
