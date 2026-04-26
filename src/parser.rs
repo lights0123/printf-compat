@@ -29,7 +29,7 @@ fn parse_flags(mut sub: &[u8]) -> (Flags, &[u8]) {
 unsafe fn parse_width<'a>(mut sub: &'a [u8], args: &mut VaList) -> (c_int, &'a [u8]) {
     let mut width: c_int = 0;
     if sub.first() == Some(&b'*') {
-        return (unsafe { args.arg() }, next_char(sub));
+        return (unsafe { args.next_arg() }, next_char(sub));
     }
     while let Some(&ch) = sub.first() {
         match ch {
@@ -73,24 +73,24 @@ enum Length {
 impl Length {
     unsafe fn parse_signed(self, args: &mut VaList) -> SignedInt {
         match self {
-            Length::Int => SignedInt::Int(unsafe { args.arg() }),
-            Length::Char => SignedInt::Char(unsafe { args.arg::<c_int>() } as c_schar),
-            Length::Short => SignedInt::Short(unsafe { args.arg::<c_int>() } as c_short),
-            Length::Long => SignedInt::Long(unsafe { args.arg() }),
-            Length::LongLong => SignedInt::LongLong(unsafe { args.arg() }),
+            Length::Int => SignedInt::Int(unsafe { args.next_arg() }),
+            Length::Char => SignedInt::Char(unsafe { args.next_arg::<c_int>() } as c_schar),
+            Length::Short => SignedInt::Short(unsafe { args.next_arg::<c_int>() } as c_short),
+            Length::Long => SignedInt::Long(unsafe { args.next_arg() }),
+            Length::LongLong => SignedInt::LongLong(unsafe { args.next_arg() }),
             // for some reason, these exist as different options, yet produce the same output
-            Length::Usize | Length::Isize => SignedInt::Isize(unsafe { args.arg() }),
+            Length::Usize | Length::Isize => SignedInt::Isize(unsafe { args.next_arg() }),
         }
     }
     unsafe fn parse_unsigned(self, args: &mut VaList) -> UnsignedInt {
         match self {
-            Length::Int => UnsignedInt::Int(unsafe { args.arg() }),
-            Length::Char => UnsignedInt::Char(unsafe { args.arg::<c_uint>() } as c_uchar),
-            Length::Short => UnsignedInt::Short(unsafe { args.arg::<c_uint>() } as c_ushort),
-            Length::Long => UnsignedInt::Long(unsafe { args.arg() }),
-            Length::LongLong => UnsignedInt::LongLong(unsafe { args.arg() }),
+            Length::Int => UnsignedInt::Int(unsafe { args.next_arg() }),
+            Length::Char => UnsignedInt::Char(unsafe { args.next_arg::<c_uint>() } as c_uchar),
+            Length::Short => UnsignedInt::Short(unsafe { args.next_arg::<c_uint>() } as c_ushort),
+            Length::Long => UnsignedInt::Long(unsafe { args.next_arg() }),
+            Length::LongLong => UnsignedInt::LongLong(unsafe { args.next_arg() }),
             // for some reason, these exist as different options, yet produce the same output
-            Length::Usize | Length::Isize => UnsignedInt::Isize(unsafe { args.arg() }),
+            Length::Usize | Length::Isize => UnsignedInt::Isize(unsafe { args.next_arg() }),
         }
     }
 }
@@ -172,23 +172,23 @@ pub unsafe fn format(
                 b'u' => Specifier::Uint(unsafe { length.parse_unsigned(&mut args) }),
                 b'o' => Specifier::Octal(unsafe { length.parse_unsigned(&mut args) }),
                 b'f' | b'F' => Specifier::Double {
-                    value: unsafe { args.arg() },
+                    value: unsafe { args.next_arg() },
                     format: DoubleFormat::Normal.set_upper(ch.is_ascii_uppercase()),
                 },
                 b'e' | b'E' => Specifier::Double {
-                    value: unsafe { args.arg() },
+                    value: unsafe { args.next_arg() },
                     format: DoubleFormat::Scientific.set_upper(ch.is_ascii_uppercase()),
                 },
                 b'g' | b'G' => Specifier::Double {
-                    value: unsafe { args.arg() },
+                    value: unsafe { args.next_arg() },
                     format: DoubleFormat::Auto.set_upper(ch.is_ascii_uppercase()),
                 },
                 b'a' | b'A' => Specifier::Double {
-                    value: unsafe { args.arg() },
+                    value: unsafe { args.next_arg() },
                     format: DoubleFormat::Hex.set_upper(ch.is_ascii_uppercase()),
                 },
                 b's' => {
-                    let arg: *mut c_char = unsafe { args.arg() };
+                    let arg: *mut c_char = unsafe { args.next_arg() };
                     // As a common extension supported by glibc, musl, and
                     // others, format a NULL pointer as "(null)".
                     if arg.is_null() {
@@ -211,11 +211,11 @@ pub unsafe fn format(
                     }
 
                     Specifier::Char(
-                        unsafe { args.arg::<<c_char as CharToInt>::IntType>() } as c_char
+                        unsafe { args.next_arg::<<c_char as CharToInt>::IntType>() } as c_char
                     )
                 }
-                b'p' => Specifier::Pointer(unsafe { args.arg() }),
-                b'n' => Specifier::WriteBytesWritten(written, unsafe { args.arg() }),
+                b'p' => Specifier::Pointer(unsafe { args.next_arg() }),
+                b'n' => Specifier::WriteBytesWritten(written, unsafe { args.next_arg() }),
                 _ => return -1,
             },
         }));
