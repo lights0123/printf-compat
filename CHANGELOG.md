@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 (April 26, 2026)
+
+* Fix compilation errors on recent nightlies due to changes in the std
+  [`VaList` implementation](https://github.com/rust-lang/rust/pull/155614).
+
+## 0.3.1 (January 24, 2026)
+
+* Document the behavior of the precision field with ints.
+  <https://github.com/lights0123/printf-compat/pull/51>
+
 ## 0.3.0 (December 7, 2025)
 
 * Fix compilation errors on recent nightlies due to changes in the std
