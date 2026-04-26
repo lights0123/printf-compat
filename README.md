@@ -103,9 +103,9 @@ that takes an [`Argument`] and returns the number of bytes written (although
 you don't *need* to if your C library doesn't use it) or -1 if there was an
 error.
 
-[sigrok-log]: https://sigrok.org/api/libsigrok/unstable/a00074.html#ga4240b8fe79be72ef758f40f9acbd4316
+[sigrok-log]: https://sigrok.org/api/libsigrok/unstable/a00063.html#ga4240b8fe79be72ef758f40f9acbd4316
 [libusb-log]: http://libusb.sourceforge.net/api-1.0/group__libusb__lib.html#ga2efb66b8f16ffb0851f3907794c06e20
-[test suite]: https://github.com/lights0123/printf-compat/blob/master/src/tests.rs
+[test suite]: https://github.com/lights0123/printf-compat/blob/master/tests/tests.rs
 [`ufmt`]: https://docs.rs/ufmt/
 [`defmt`]: https://defmt.ferrous-systems.com/
 
@@ -116,10 +116,10 @@ License: MIT OR Apache-2.0
 [std::io::stdout]: https://doc.rust-lang.org/std/io/fn.stdout.html
 [`std`]: https://doc.rust-lang.org/std/index.html
 [`std::os::raw`]: https://doc.rust-lang.org/stable/std/os/raw/index.html
-[output::fmt_write]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
-[`output::fmt_write`]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html
-[output::fmt_write#differences]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.fmt_write.html#differences
-[output::io_write]: https://docs.rs/printf-compat/0.1/printf_compat/output/fn.io_write.html
-[`output`]: https://docs.rs/printf-compat/0.1/printf_compat/output/index.html
-[`format()`]: https://docs.rs/printf-compat/0.1/printf_compat/fn.format.html
-[`Argument`]: https://docs.rs/printf-compat/0.1/printf_compat/argument/struct.Argument.html
+[output::fmt_write]: https://docs.rs/printf-compat/latest/printf_compat/output/fn.fmt_write.html
+[`output::fmt_write`]: https://docs.rs/printf-compat/latest/printf_compat/output/fn.fmt_write.html
+[output::fmt_write#differences]: https://docs.rs/printf-compat/latest/printf_compat/output/fn.fmt_write.html#differences
+[output::io_write]: https://docs.rs/printf-compat/latest/printf_compat/output/fn.io_write.html
+[`output`]: https://docs.rs/printf-compat/latest/printf_compat/output/index.html
+[`format()`]: https://docs.rs/printf-compat/latest/printf_compat/fn.format.html
+[`Argument`]: https://docs.rs/printf-compat/latest/printf_compat/argument/struct.Argument.html
