@@ -104,9 +104,9 @@
 //! you don't *need* to if your C library doesn't use it) or -1 if there was an
 //! error.
 //!
-//! [sigrok-log]: https://sigrok.org/api/libsigrok/unstable/a00074.html#ga4240b8fe79be72ef758f40f9acbd4316
+//! [sigrok-log]: https://sigrok.org/api/libsigrok/unstable/a00063.html#ga4240b8fe79be72ef758f40f9acbd4316
 //! [libusb-log]: http://libusb.sourceforge.net/api-1.0/group__libusb__lib.html#ga2efb66b8f16ffb0851f3907794c06e20
-//! [test suite]: https://github.com/lights0123/printf-compat/blob/master/src/tests.rs
+//! [test suite]: https://github.com/lights0123/printf-compat/blob/master/tests/tests.rs
 //! [`ufmt`]: https://docs.rs/ufmt/
 //! [`defmt`]: https://defmt.ferrous-systems.com/
 
