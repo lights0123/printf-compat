@@ -7,6 +7,7 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 categories = ["development-tools::ffi", "embedded", "no-std", "no-std::no-alloc"]
+keywords = ["printf", "c_variadic", "no_std", "va_list"]
 
 [dependencies]
 bitflags = "2.9.1"
