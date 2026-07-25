@@ -5,8 +5,9 @@
 
 `printf` reimplemented in Rust
 
-This is a complete reimplementation of `printf` in Rust, using the unstable
-(i.e. **requires a Nightly compiler**) `c_variadic` feature.
+This is a complete reimplementation of `printf` in Rust. It requires the
+`c_variadic` feature, which will be stable in Rust 1.99, but currently
+requires the nightly toolchain.
 
 - [Many C][sigrok-log] [libraries][libusb-log] provide a way to provide a
   custom log callback. With this crate, you can provide a pure Rust option,
@@ -58,13 +59,7 @@ documented][output::fmt_write#differences].
 
 ## Getting Started
 
-Start by adding the unstable feature:
-
-```rust
-#![feature(c_variadic)]
-```
-
-Now, add your function signature:
+Start by adding your function signature:
 
 ```rust
 use core::ffi::{c_char, c_int};

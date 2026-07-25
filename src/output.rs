@@ -321,8 +321,6 @@ pub unsafe fn display<'a>(format: *const c_char, va_list: VaList<'a>) -> VaListD
 /// uses [`format_args!`], such as [`println!`] or the `log` crate.
 ///
 /// ```rust
-/// #![feature(c_variadic)]
-///
 /// use core::ffi::{c_char, c_int};
 ///
 /// #[unsafe(no_mangle)]

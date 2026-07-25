@@ -1,7 +1,8 @@
 //! `printf` reimplemented in Rust
 //!
-//! This is a complete reimplementation of `printf` in Rust, using the unstable
-//! (i.e. **requires a Nightly compiler**) `c_variadic` feature.
+//! This is a complete reimplementation of `printf` in Rust. It requires the
+//! `c_variadic` feature, which will be stable in Rust 1.99, but currently
+//! requires the nightly toolchain.
 //!
 //! - [Many C][sigrok-log] [libraries][libusb-log] provide a way to provide a
 //!   custom log callback. With this crate, you can provide a pure Rust option,
@@ -53,16 +54,9 @@
 //!
 //! # Getting Started
 //!
-//! Start by adding the unstable feature:
+//! Start by adding your function signature:
 //!
 //! ```rust
-//! #![feature(c_variadic)]
-//! ```
-//!
-//! Now, add your function signature:
-//!
-//! ```rust
-//! # #![feature(c_variadic)]
 //! use core::ffi::{c_char, c_int};
 //!
 //! #[unsafe(no_mangle)]
@@ -85,7 +79,6 @@
 //! Now, add your logic:
 //!
 //! ```rust
-//! # #![feature(c_variadic)]
 //! # use core::ffi::{c_char, c_int};
 //! # #[unsafe(no_mangle)]
 //! # unsafe extern "C" fn c_library_print(str: *const c_char, args: ...) -> c_int {
@@ -111,7 +104,6 @@
 //! [`defmt`]: https://defmt.ferrous-systems.com/
 
 #![cfg_attr(not(any(test, feature = "std")), no_std)]
-#![feature(c_variadic)]
 
 use core::{ffi::*, fmt};
 

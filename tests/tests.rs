@@ -1,5 +1,3 @@
-#![feature(c_variadic)]
-
 use core::{ffi::*, ptr::null_mut};
 
 unsafe extern "C" {
