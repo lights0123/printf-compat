@@ -21,15 +21,15 @@ defaults:
 
 jobs:
   test:
-    name: cargo +nightly build
+    name: cargo +beta build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install latest nightly
-        uses: dtolnay/rust-toolchain@nightly
+      - name: Install latest beta
+        uses: dtolnay/rust-toolchain@beta
         with:
-          toolchain: nightly
+          toolchain: beta
           targets: thumbv7m-none-eabi
           components: rustfmt, clippy
 
