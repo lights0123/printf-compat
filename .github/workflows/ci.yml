@@ -21,13 +21,16 @@ defaults:
 
 jobs:
   test:
-    name: test on the beta channel
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # TODO: add stable and MSRV to this list once 1.99 is released.
+        channel: ['beta', 'nightly']
     steps:
       - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@beta
+      - uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: beta
+          toolchain: ${{ matrix.channel }}
           targets: thumbv7m-none-eabi
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
