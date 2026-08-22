@@ -2,8 +2,10 @@
 
 ## Unreleased
 
-* Drop the `c_variadic` feature, as it has been stabilized on nightly.
+* Drop the `c_variadic` feature, as it has been stabilized in 1.99.
   <https://github.com/lights0123/printf-compat/pull/63>
+* Set MSRV to 1.99.
+  <https://github.com/lights0123/printf-compat/pull/66>
 
 ## 0.4.0 (April 26, 2026)
 
