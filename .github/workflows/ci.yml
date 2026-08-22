@@ -21,33 +21,31 @@ defaults:
 
 jobs:
   test:
-    name: cargo +beta build
+    name: test on the beta channel
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-
-      - name: Install latest beta
-        uses: dtolnay/rust-toolchain@beta
+      - uses: dtolnay/rust-toolchain@beta
         with:
           toolchain: beta
           targets: thumbv7m-none-eabi
           components: rustfmt, clippy
-
       - uses: Swatinem/rust-cache@v2
-
       - run: cargo fmt --check
       - run: cargo test
       - run: cargo clippy --all-features
       - run: cargo doc --all-features
-
       # Ensure that the library doesn't depend on std/alloc. A binary
       # that depends on the library is used for this (instead of
       # directly build the library), otherwise accidentally depending on
       # `alloc` would not result in an error.
-      - name: cargo build no_std
-        run: cargo build --target thumbv7m-none-eabi --no-default-features
+      - run: cargo build --target thumbv7m-none-eabi --no-default-features
         working-directory: ci/ensure_no_std
 
+  readme:
+    name: check readme
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
       - run: cargo install cargo-readme
-      - name: Ensure README.md is up-to-date
-        run: '[ "$(< README.md)" = "$(cargo readme)" ]'
+      - run: '[ "$(< README.md)" = "$(cargo readme)" ]'
