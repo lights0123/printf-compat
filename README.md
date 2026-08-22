@@ -5,9 +5,7 @@
 
 `printf` reimplemented in Rust
 
-This is a complete reimplementation of `printf` in Rust. It requires the
-`c_variadic` feature, which will be stable in Rust 1.99, but currently
-requires the nightly toolchain.
+This is a complete reimplementation of `printf` in Rust. Example use cases:
 
 - [Many C][sigrok-log] [libraries][libusb-log] provide a way to provide a
   custom log callback. With this crate, you can provide a pure Rust option,
@@ -20,10 +18,6 @@ requires the nightly toolchain.
   formatting code, or use a minimal formatting library like [`ufmt`] or
   [`defmt`]. Don't need *every* single option given by `printf` format
   strings? No problem! Just don't implement it.
-- Likewise, if you're using `wasm32-unknown-unknown` instead of emscripten
-  (as wasm-bindgen is only compatible with the former), you have no libc. If
-  you want to interface with a C library, you'll have to do it all yourself.
-  With this crate, that turns into 5 lines instead of hundreds for `printf`.
 
 ## Benefits
 
