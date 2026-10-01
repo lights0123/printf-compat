@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@master
-        toolchain: stable
+        with:
+          toolchain: stable
       - uses: rust-lang/crates-io-auth-action@v1
         id: auth
       - run: cargo install auto-release
