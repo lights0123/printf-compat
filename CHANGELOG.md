@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 (October 1, 2026)
 
 * Drop the `c_variadic` feature, as it has been stabilized in 1.99.
   <https://github.com/lights0123/printf-compat/pull/63>
